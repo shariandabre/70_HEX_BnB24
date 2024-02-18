@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
+import { AuthContextProvider} from "@/context/AuthContext";
+// import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-screen">
+      <body className="h-screen">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <div className="flex flex-1 h-full">
+            <main className="flex-1 h-full">
+              <AuthContextProvider>
+                {children}
+              </AuthContextProvider>
+            </main>
+            <Toaster />
+          </div>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
